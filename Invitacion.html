@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Estás Invitado al Cumpleaños de Ithiel!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Telerín Fun -->
+    <!-- Application Structure Plan: Se ha diseñado una aplicación de una sola página con un flujo vertical lógico. Comienza con una sección principal (héroe) llamativa con animaciones para captar la atención. Luego, una sección de detalles clara con iconos para la información esencial. Un contador regresivo interactivo genera anticipación, una sección de "Momentos Divertidos" añade interactividad adicional con contenido expandible, y una sección de contacto finaliza la invitación. Esta estructura guía al usuario de manera intuitiva, presentando la información clave y la acción final de forma atractiva y dinámica, ideal para padres y niños. -->
+    <!-- Visualization & Content Choices: Se ha optado por un diseño limpio y colorido, sin imágenes externas para evitar problemas de carga. Para informar, se utilizan bloques de texto con iconos Unicode (🎂, 🗓️, 📍) para facilitar la lectura rápida. Para generar interacción y emoción, se ha implementado un contador regresivo dinámico con JavaScript y se han añadido animaciones CSS sutiles (escalado al pasar el ratón, sombras, un ligero efecto de aparición y un movimiento continuo de fondo). Se ha incorporado una sección colapsable ("Momentos Divertidos") para añadir contenido interactivo extra. El objetivo es presentar la información de la invitación de una manera atractiva, funcional y con un toque de "magia" infantil, sin sobrecargar al usuario. No se utilizan gráficos SVG ni la librería Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .bg-pattern {
+            background-color: #fef3c7;
+            background-image:
+                radial-gradient(circle at 100% 0, #93c5fd 15%, transparent 15%),
+                radial-gradient(circle at 0 100%, #93c5fd 15%, transparent 15%);
+            background-size: 40px 40px;
+            animation: backgroundPan 30s linear infinite;
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+        .countdown-box {
+            background-color: #3b82f6; /* blue-500 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .countdown-box:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        }
+        .detail-box:hover {
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes backgroundPan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .character-img { /* Esta clase ahora está sin uso ya que las imágenes de personajes se han eliminado */
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .character-img.clicked { /* Esta clase ahora está sin uso ya que las imágenes de personajes se han eliminado */
+            transform: scale(1.1);
+            border-color: #ef4444; /* red-500 */
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffeb3b; /* Yellow */
+            opacity: 0;
+            animation: confetti-fall 3s ease-out forwards;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(200px) rotate(720deg); opacity: 0; }
+        }
+        .confetti:nth-child(2n) { background-color: #f44336; } /* Red */
+        .confetti:nth-child(3n) { background-color: #2196f3; } /* Blue */
+    </style>
+</head>
+<body class="bg-pattern text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <header class="text-center my-8 md:my-12 animate-fade-in-up">
+            <div class="inline-block bg-yellow-300 p-4 rounded-full shadow-lg">
+                <div class="inline-block bg-white p-4 rounded-full">
+                     <h1 class="text-3xl md:text-5xl font-bold text-blue-500 text-shadow">¡Estás Invitado!</h1>
+                </div>
+            </div>
+            <p class="mt-4 text-lg md:text-xl text-gray-700">a celebrar con Cleo y Cuquín el cumpleaños de</p>
+            <h2 class="text-5xl md:text-7xl font-bold text-yellow-500 text-shadow mt-2">Ithiel Rosario</h2>
+            <!-- Se han eliminado las imágenes de Cleo y Cuquín por problemas de carga. -->
+            <div class="mt-8 text-6xl">
+                ✨ 🎉 🎈
+            </div>
+        </header>
+
+        <main>
+            <div class="card rounded-2xl shadow-xl p-6 md:p-10">
+                <section id="details" class="text-center">
+                    <h3 class="text-2xl font-semibold mb-8 text-blue-600">Una fiesta llena de aventuras</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md transform hover:scale-105 transition-transform detail-box">
+                            <p class="text-5xl mb-3">🎂</p>
+                            <h4 class="font-bold text-lg text-gray-700">¿Quién cumple años?</h4>
+                            <p class="text-blue-500 text-xl font-semibold">Ithiel Rosario</p>
+                            <p class="text-gray-500">¡Cumple 2 añitos!</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md transform hover:scale-105 transition-transform detail-box">
+                            <p class="text-5xl mb-3">🗓️</p>
+                            <h4 class="font-bold text-lg text-gray-700">¿Cuándo?</h4>
+                            <p class="text-blue-500 text-xl font-semibold">Martes, 24 de Junio</p>
+                            <p class="text-gray-500">De 3:00 PM a 5:00 PM</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md transform hover:scale-105 transition-transform sm:col-span-2 lg:col-span-1 detail-box">
+                            <p class="text-5xl mb-3">📍</p>
+                            <h4 class="font-bold text-lg text-gray-700">¿Dónde?</h4>
+                            <p class="text-blue-500 text-xl font-semibold">Babies Guarderia Infantil</p>
+                            <p class="text-gray-500">¡Un lugar para jugar sin parar!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-10 border-gray-300">
+
+                <section id="countdown" class="text-center relative overflow-hidden py-8">
+                    <h3 class="text-2xl font-semibold mb-6 text-blue-600">¡Falta poco para la fiesta!</h3>
+                    <div id="countdown-container" class="flex justify-center items-center space-x-2 md:space-x-4">
+                        <div class="countdown-box text-white p-3 md:p-4 rounded-lg text-center w-20 md:w-24 shadow-lg">
+                            <div id="days" class="text-3xl md:text-4xl font-bold">00</div>
+                            <div class="countdown-label">Días</div>
+                        </div>
+                        <div class="countdown-box text-white p-3 md:p-4 rounded-lg text-center w-20 md:w-24 shadow-lg">
+                            <div id="hours" class="text-3xl md:text-4xl font-bold">00</div>
+                            <div class="countdown-label">Horas</div>
+                        </div>
+                        <div class="countdown-box text-white p-3 md:p-4 rounded-lg text-center w-20 md:w-24 shadow-lg">
+                            <div id="minutes" class="text-3xl md:text-4xl font-bold">00</div>
+                            <div class="countdown-label">Minutos</div>
+                        </div>
+                        <div class="countdown-box text-white p-3 md:p-4 rounded-lg text-center w-20 md:w-24 shadow-lg">
+                            <div id="seconds" class="text-3xl md:text-4xl font-bold">00</div>
+                            <div class="countdown-label">Segundos</div>
+                        </div>
+                    </div>
+                     <div id="party-message" class="hidden text-3xl font-bold text-green-500 mt-6">¡La fiesta ha comenzado!</div>
+                </section>
+                
+                <hr class="my-10 border-gray-300">
+
+                <section id="fun-facts" class="text-center">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-600">¡Momentos Divertidos con Cleo y Cuquín!</h3>
+                    <button id="toggle-fun-facts" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg transform hover:scale-105 transition-transform mb-4">
+                        Descubre más
+                    </button>
+                    <div id="fun-facts-content" class="hidden text-gray-700 mt-4 text-left p-4 bg-blue-50 rounded-lg shadow-inner">
+                        <p class="mb-2">🌟 ¿Sabías que Cleo siempre tiene una idea brillante para cualquier problema? ¡Es la más ingeniosa de los hermanos Telerín!</p>
+                        <p class="mb-2">🎈 Cuquín es el más pequeño y travieso, ¡siempre buscando nuevas aventuras y risas con sus hermanos!</p>
+                        <p class="mb-2">🎶 La canción de los hermanos Telerín es famosa en todo el mundo hispano, ¡haciéndolos unos íconos de la hora de irse a la cama (y ahora de la fiesta)!</p>
+                        <p class="mb-2">🎨 A Cleo le encanta pintar y crear, mientras que a Cuquín le encanta jugar con juguetes y explorar el mundo.</p>
+                        <!-- Se ha eliminado la imagen de Cleo y Cuquín jugando por problemas de carga. -->
+                        <div class="text-center text-4xl my-4">
+                            🌈 🧸 🥳
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-10 border-gray-300">
+
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 mb-6">
+            <p class="text-gray-600 font-semibold text-2xl">¡Te esperamos para celebrar!</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const partyDate = new Date('June 24, 2025 15:00:00').getTime();
+        const countdownContainer = document.getElementById('countdown-container');
+        const partyMessage = document.getElementById('party-message');
+        const toggleFunFactsBtn = document.getElementById('toggle-fun-facts');
+        const funFactsContent = document.getElementById('fun-facts-content');
+        // Se han eliminado las variables cleoImg y cuquinImg ya que sus elementos IMG fueron removidos del HTML.
+        // const cleoImg = document.getElementById('cleo-img');
+        // const cuquinImg = document.getElementById('cuquin-img');
+
+        const createConfetti = (count) => {
+            const countdownSection = document.getElementById('countdown');
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = `${Math.random() * -50}px`; /* Start above */
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                countdownSection.appendChild(confetti);
+            }
+        };
+
+        const countdown = () => {
+            const now = new Date().getTime();
+            const difference = partyDate - now;
+
+            if (difference < 0) {
+                countdownContainer.classList.add('hidden');
+                partyMessage.classList.remove('hidden');
+                createConfetti(50);
+                clearInterval(interval);
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        };
+
+        const interval = setInterval(countdown, 1000);
+        countdown(); /* Call once immediately to avoid initial flicker */
+
+        toggleFunFactsBtn.addEventListener('click', () => {
+            funFactsContent.classList.toggle('hidden');
+            if (funFactsContent.classList.contains('hidden')) {
+                toggleFunFactsBtn.innerText = 'Descubre más';
+            } else {
+                toggleFunFactsBtn.innerText = 'Ver menos';
+            }
+        });
+
+        /* Se han eliminado las funciones y listeners relacionados con las imágenes de personajes ya que los elementos IMG fueron removidos. */
+        // const handleCharacterClick = (event) => {
+        //     const img = event.target;
+        //     img.classList.add('clicked');
+        //     setTimeout(() => {
+        //         img.classList.remove('clicked');
+        //     }, 500);
+        // };
+
+        // if (cleoImg) {
+        //     cleoImg.addEventListener('click', handleCharacterClick);
+        // }
+        // if (cuquinImg) {
+        //     cuquinImg.addEventListener('click', handleCharacterClick);
+        // }
+    </script>
+</body>
+</html>
